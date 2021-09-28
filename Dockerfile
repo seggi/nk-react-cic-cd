@@ -1,4 +1,4 @@
-FROM node:14 
+FROM node:14 AS build
 
 LABEL version="1.0.0"
 
