@@ -6,8 +6,7 @@ COPY package*.json ./
 # RUN yarn cache clean && yarn --update-checksums
 COPY . ./
 
-RUN yarn run build
-
+RUN yarn build
 # Stage - Production
 FROM nginx:1.17-alpine
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
