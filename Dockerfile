@@ -16,7 +16,7 @@ RUN yarn && yarn build
 
 FROM nginx:1.19-alpine AS server
 
-COPY  ./nginx/default.conf /etc/nginx/conf.d/default.conf
+# COPY  ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=production ./app/build /usr/share/nginx/html
 
