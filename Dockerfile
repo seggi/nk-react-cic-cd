@@ -1,14 +1,18 @@
+FROM node:14 AS build
 
-FROM node:13.1-alpine as build
+LABEL version="1.0.0"
+
+LABEL description="This is microservice app test with docker"
 
 WORKDIR /usr/src/app
-COPY package*.json ./
-RUN yarn cache clean && yarn --update-checksums
-COPY . ./
+COPY package*.json .gitignore ./
+RUN npm install glob rimraf
+RUN npm install
+COPY . .
 
-RUN yarn run build
+RUN npm build
 
-# Stage - Production
+# # Stage - Production
 FROM nginx:1.17-alpine
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
 EXPOSE 80
