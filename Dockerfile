@@ -6,8 +6,6 @@ COPY package*.json ./
 
 RUN yarn cache clean && yarn --update-checksums
 
-# COPY yarn.lock ./
-
 RUN yarn install --frozen-lockfile
 
 COPY . .
@@ -15,8 +13,6 @@ COPY . .
 RUN yarn && yarn build
 
 FROM nginx:1.19-alpine AS server
-
-# COPY  ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=production ./app/build /usr/share/nginx/html
 
