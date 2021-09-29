@@ -5,7 +5,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <p>
-          Edit <code>src/App.js</code> seggi M.
+          Check Me <code>src/App.js</code> seggi M.
         </p>
         <a>Checking</a>
       </header>
