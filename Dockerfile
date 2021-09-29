@@ -1,20 +1,26 @@
-FROM node:14 AS build
+FROM  node:12.19.0-alpine3.9  AS production
 
-LABEL version="1.0.0"
+WORKDIR /app
 
-LABEL description="This is microservice app test with docker"
+COPY package*.json ./
 
-WORKDIR /usr/src/app
-COPY package*.json .gitignore ./
-RUN npm install glob rimraf
-RUN npm install
+RUN yarn cache clean && yarn --update-checksums
+
+# COPY yarn.lock ./
+
+RUN yarn install --frozen-lockfile
+
 COPY . .
 
-RUN npm build
+RUN yarn && yarn build
 
-# Stage - Production
-FROM nginx:1.17-alpine
-COPY --from=build /usr/src/app/build /usr/share/nginx/html
-EXPOSE 80
+FROM nginx:1.19-alpine AS server
+
+# COPY  ./nginx/default.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=production ./app/build /usr/share/nginx/html
+
+EXPOSE 300
+
 CMD ["nginx", "-g", "daemon off;"]
 
